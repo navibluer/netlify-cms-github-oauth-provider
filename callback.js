@@ -17,6 +17,7 @@ export default (oauth2, oauthProvider) => {
     oauth2
       .getToken(options)
       .then((result) => {
+        console.log({ result });
         const token = oauth2.createToken(result);
         content = {
           token: token.token.token.access_token,
