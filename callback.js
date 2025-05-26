@@ -18,11 +18,11 @@ export default (oauth2, oauthProvider) => {
       .getToken(options)
       .then((result) => {
         const token = oauth2.createToken(result);
-        console.log({ token });
         content = {
           token: token.token.token.access_token,
           provider: oauthProvider,
         };
+        console.log({ content });
         return { message: 'success', content };
       })
       .catch((error) => {
