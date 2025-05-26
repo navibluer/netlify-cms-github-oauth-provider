@@ -1,14 +1,22 @@
-const REQUIRED_ORIGIN_PATTERN = 
-  /^((\*|([\w_-]{2,}))\.)*(([\w_-]{2,})\.)+(\w{2,})(\,((\*|([\w_-]{2,}))\.)*(([\w_-]{2,})\.)+(\w{2,}))*$/
+import dotenv from 'dotenv';
+dotenv.config();
 
-if (!process.env.ORIGINS.match(REQUIRED_ORIGIN_PATTERN)) {
-  throw new Error('process.env.ORIGINS MUST be comma separated list \
-    of origins that login can succeed on.')
-}
-const origins = process.env.ORIGINS.split(',')
+console.log('aaa');
+const { ORIGINS } = process.env;
+console.log({ ORIGINS });
 
+// const REQUIRED_ORIGIN_PATTERN =
+//   /^((\*|([\w_-]{2,}))\.)*(([\w_-]{2,})\.)+(\w{2,})(\,((\*|([\w_-]{2,}))\.)*(([\w_-]{2,})\.)+(\w{2,}))*$/;
 
-module.exports = (oauthProvider, message, content) => `
+// if (!process.env.ORIGINS.match(REQUIRED_ORIGIN_PATTERN)) {
+//   throw new Error(
+//     'process.env.ORIGINS MUST be comma separated list \
+//     of origins that login can succeed on.'
+//   );
+// }
+const origins = process.env.ORIGINS.split(',');
+
+export default (oauthProvider, message, content) => `
 <script>
 (function() {
   function contains(arr, elem) {
@@ -29,7 +37,9 @@ module.exports = (oauthProvider, message, content) => `
   }
   function recieveMessage(e) {
     console.log("recieveMessage %o", e)
-    if (!contains(${JSON.stringify(origins)}, e.origin.replace('https://', 'http://').replace('http://', ''))) {
+    if (!contains(${JSON.stringify(
+      origins
+    )}, e.origin.replace('https://', 'http://').replace('http://', ''))) {
       console.log('Invalid origin: %s', e.origin);
       return;
     }
@@ -44,4 +54,4 @@ module.exports = (oauthProvider, message, content) => `
   console.log("Sending message: %o", "${oauthProvider}")
   window.opener.postMessage("authorizing:${oauthProvider}", "*")
 })()
-</script>`
+</script>`;
