@@ -1,7 +1,6 @@
 import dotenv from 'dotenv';
 dotenv.config();
 
-console.log('aaa');
 const { ORIGINS } = process.env;
 console.log({ ORIGINS });
 

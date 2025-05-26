@@ -1,9 +1,6 @@
 import dotenv from 'dotenv';
 dotenv.config();
 
-const { ORIGINS } = process.env;
-console.log(ORIGINS);
-
 import express from 'express';
 import middleWarez from './index.js';
 const port = process.env.PORT || 3000;
